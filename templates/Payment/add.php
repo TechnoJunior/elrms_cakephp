@@ -28,7 +28,12 @@
                                         <div class="col-lg-7">
                                             <select class="form-control m-bot15" name="division_code" id="division_code" required>
                                                 <option hidden>Select Division</option>
-                                                <option value="Mahim">Mahim</option>
+                                                <?php 
+                                                    foreach($div_list as $key=>$div_list)
+                                                    {
+                                                        echo "<option value='".$div_list->division_name."'>".$div_list->division_name."</option>";
+                                                    }
+                                                ?>
                                             </select>
                                         </div>
                                     </div>
@@ -38,7 +43,12 @@
                                     <div class="col-lg-5">
                                         <select class="form-control m-bot15" name='tenure_code' id="tenure_code" onchange ="getdetails(this.value);showdetails(this.value)" >
                                             <option hidden>Select Tenure</option>
-                                            <option value="LTA">LTA</option>
+                                            <?php 
+                                                    foreach($ten_list as $key=>$tenure_list)
+                                                    {
+                                                        echo "<option value='".$tenure_list->tenure_name."'>".$tenure_list->tenure_name."</option>";
+                                                    }
+                                                ?>
                                         </select>
                                     </div>
                                 </td>
@@ -124,7 +134,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-5 control-label">Payment ID</label>
                                             <div class="col-sm-5">
-                                                <input type="number" class="form-control" name="payment_id" disabled value= "0">
+                                                <input type="number" class="form-control" name="payment_id" disabled value= "<?php foreach ($id as $key=>$max_id){echo $max_id->pay_id+1;}?>">
                                             </div>
                                         </div>
                                     </td>
