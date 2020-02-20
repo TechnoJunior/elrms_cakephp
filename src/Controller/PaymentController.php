@@ -12,7 +12,8 @@
         }
         
         public function add() {
-            $division_list= $this->Payments->find('all',['order'=>'Payment_id']);
+            $division_list= $this->Divisions->find('all',['order'=>'division_code']);
+            $this->set('div_list',$division_list);
             $this->set('title','Add Payment');
         }
     }
