@@ -21,6 +21,6 @@
             <?= $this->fetch('content') ?>
         </section>
         <!-- Javascript codes -->
-        <?= $this->Html->script(['jquery','bootstrap.min','jquery.scrollTo.min','jquery.nicescroll','scripts','contactform','custom'])?>
+        <?= $this->Html->script(['jquery','bootstrap.min','jquery.scrollTo.min','jquery.nicescroll','scripts','contactform'])?>
     </body>
 </html>

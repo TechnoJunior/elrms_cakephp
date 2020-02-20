@@ -34,8 +34,8 @@
                             document.getElementById("area").value="";
                         }
                     }
-                    console.log("db/search.php?tenure_code="+ten+ "& division_code=" +div+ "& crr=" +crr);
-                    xmlhttp.open("get","db/search.php?tenure_code="+ten+ "& division_code=" +div+ "& crr=" +crr,true);
+//                    console.log("/payment/add?tenure_code="+ten+ "& division_code=" +div+ "& crr=" +crr);
+//                    xmlhttp.open("get","/payment/add?tenure_code="+ten+ "& division_code=" +div+ "& crr=" +crr,true);
                     xmlhttp.send();
                 }
             }

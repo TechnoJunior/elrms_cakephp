@@ -210,7 +210,6 @@
                             <div class="form-group">
                                 <div class="col-sm-5"></div>
                                 <div class="col-sm-2">
-                                    <?= $this->Form->button(__('Submit')) ?>
                                     <input type="submit" name='submit' placeholder="Submit" onclick="validate()" class="form-control">
                                 </div>
                             </div>
