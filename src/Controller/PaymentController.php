@@ -7,6 +7,7 @@
     {
         public function initialize(): void {
             parent::initialize();
+            $this->loadModel('Payments');
             $this->viewBuilder()->setLayout('niceadmin');
         }
         
