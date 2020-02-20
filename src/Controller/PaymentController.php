@@ -10,6 +10,7 @@
             $this->Divisions= $this->loadModel('Divisions');
             $this->Payments= $this->loadModel('Payments');
             $this->Tenures= $this->loadModel('Tenures');
+            $this->Arrears= $this->loadModel('Arrears');
             $this->viewBuilder()->setLayout('niceadmin');
         }
         
@@ -28,11 +29,26 @@
             $this->set('id',$pid);
             
             $this->set('title','Add Payment');
+//            if($this->request->is('post')){
+//                pr($this->request->getData('remarks'));
+//            }
         }
-        
-        public function table1() {
-            $pid= $this->Payments->find('');
-            $pid->select(['pay_id'=>$pid->func()->max('payment_id')]);
+
+
+        public function fetchname() {
+            $this->autoRender=false;
+            //$this->request->allowMethod(['post']);
+            
+            $crr= $this->request->getQuery('crr');
+            $div_code= $this->request->getQuery('division_code');
+            $ten_code= $this->request->getQuery('tenure_code');
+            
+            $pid= $this->Arrears->find('all');
+            $pid->where(['crr_number'=>$crr,'division_code'=>$div_code,'tenure_code'=>$ten_code]);
+            foreach($pid as $key=>$p)
+            {
+                echo $p->division_code."<br>";
+            }
         }
     }
 ?>
