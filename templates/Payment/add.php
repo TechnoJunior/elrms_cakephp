@@ -18,7 +18,7 @@
                     <header class="panel-heading">
                         Form Elements
                     </header>
-                    <?= $this->Form->create($payment,['class'=>'form-horizontal']) ?>
+                    <?= $this->Form->create(null,['class'=>'form-horizontal']) ?>
                     <div class="panel-body">
                         <table class="table">
                             <tr>
@@ -31,7 +31,7 @@
                                                 <?php 
                                                     foreach($div_list as $key=>$div_list)
                                                     {
-                                                        echo "<option value='".$div_list->division_name."'>".$div_list->division_name."</option>";
+                                                        echo "<option value='".$div_list->division_code."'>".$div_list->division_name."</option>";
                                                     }
                                                 ?>
                                             </select>
@@ -41,12 +41,12 @@
                                 <td>
                                     <label class="col-lg-5 control-label" for="inputSuccess">Select Tenure<span class="required">*</span></label>
                                     <div class="col-lg-5">
-                                        <select class="form-control m-bot15" name='tenure_code' id="tenure_code" onchange ="getdetails(this.value);showdetails(this.value)" >
+                                        <select class="form-control m-bot15" name='tenure_code' id="tenure_code">
                                             <option hidden>Select Tenure</option>
                                             <?php 
                                                     foreach($ten_list as $key=>$tenure_list)
                                                     {
-                                                        echo "<option value='".$tenure_list->tenure_name."'>".$tenure_list->tenure_name."</option>";
+                                                        echo "<option value='".$tenure_list->tenure_code."'>".$tenure_list->tenure_name."</option>";
                                                     }
                                                 ?>
                                         </select>
@@ -57,7 +57,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-5 control-label">CRR Number<span class="required">*</span></label>
                                             <div class="col-sm-5">
-                                                <input type="Number" class="form-control" name="crr" id="crr" onkeyup="getdetails(this.value);showdetails(this.value);validate()" required><span id="er" class="required"></span>
+                                                <input type="Number" class="form-control" name="crr" id="crr" onkeyup="showdetails(this.value);" required><span id="er" class="required"></span>
                                             </div>
                                         </div>
                                     </div>

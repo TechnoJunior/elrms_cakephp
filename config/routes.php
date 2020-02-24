@@ -44,6 +44,7 @@ use Cake\Routing\RouteBuilder;
  */
 /** @var \Cake\Routing\RouteBuilder $routes */
 $routes->setRouteClass(DashedRoute::class);
+$routes->setExtensions(['json', 'xml']);
 
 $routes->scope('/', function (RouteBuilder $builder) {
     // Register scoped middleware for in scopes.
