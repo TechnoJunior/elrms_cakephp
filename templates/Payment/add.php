@@ -57,7 +57,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-5 control-label">CRR Number<span class="required">*</span></label>
                                             <div class="col-sm-5">
-                                                <input type="Number" class="form-control" name="crr" id="crr" onkeyup="showdetails(this.value);" required><span id="er" class="required"></span>
+                                                <input type="Number" class="form-control" name="crr" id="crr" onkeyup="getdetails(this.value);showdetails(this.value);validate()" required><span id="er" class="required"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -156,7 +156,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-5 control-label">Total Paid Amount</label>
                                             <div class="col-sm-5">
-                                                <input type="Number" class="form-control" name="total_amount" id="tpa" onkeyup="docal1();validate()" required><span id="erone" class="required"></span>
+                                                <input type="Number" class="form-control" name="total_amount" id="tpa" onkeyup="docal();validate()" required><span id="erone" class="required"></span>
                                             </div>
                                         </div>
                                     </td>
