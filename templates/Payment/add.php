@@ -18,7 +18,7 @@
                     <header class="panel-heading">
                         Form Elements
                     </header>
-                    <?= $this->Form->create(null,['class'=>'form-horizontal']) ?>
+                    <?= $this->Form->create(null,['class'=>'form-horizontal','url'=>['controller'=>'payment','action'=>'insert']]) ?>
                     <div class="panel-body">
                         <table class="table">
                             <tr>
@@ -41,7 +41,7 @@
                                 <td>
                                     <label class="col-lg-5 control-label" for="inputSuccess">Select Tenure<span class="required">*</span></label>
                                     <div class="col-lg-5">
-                                        <select class="form-control m-bot15" name='tenure_code' id="tenure_code">
+                                        <select class="form-control m-bot15" name='tenure_code' id="tenure_code" onchange ="getdetails(this.value);showdetails(this.value)">
                                             <option hidden>Select Tenure</option>
                                             <?php 
                                                     foreach($ten_list as $key=>$tenure_list)
@@ -164,7 +164,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-5 control-label">Other Amount</label>
                                             <div class="col-sm-5">
-                                                <input type="Number" class="form-control m-bot15" value="0" name='other_amount' id="other" onkeyup="docal1()" >
+                                                <input type="Number" class="form-control m-bot15" value="0" name='other_amount' id="other" onkeyup="docal()" >
                                             </div>
                                         </div>
                                     </td>

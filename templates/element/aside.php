@@ -4,7 +4,7 @@
         <!-- sidebar menu start-->
         <ul class="sidebar-menu">
             <li class="active">
-                <a class="" href="payments.php">
+                <a class="" href="add">
                     <i class="icon_house_alt"></i>
                     <span>Dashboard</span>
                 </a>

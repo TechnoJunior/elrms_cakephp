@@ -1,6 +1,6 @@
-//            var date = new Date();
-//            var currentDate = date.toISOString().slice(0,10);
-//            document.getElementById('date').value = currentDate;
+            var date = new Date();
+            var currentDate = date.toISOString().slice(0,10);
+            document.getElementById('date').value = currentDate;
             
 function getdetails(str)
 {
@@ -21,7 +21,7 @@ function getdetails(str)
             if(this.readyState == 4 && this.status==200)
             {
                 var myObj=JSON.parse(this.responseText);
-                console.log(myObj);
+//                console.log(myObj);
                 document.getElementById("name").value=myObj[0].holder_name;
                 document.getElementById("address").value=myObj[0].address;
                 document.getElementById("cs").value=myObj[0].cs_number;

@@ -2,11 +2,11 @@
     namespace App\Controller;
     
     use App\Controller\AppController;
-    use Cake\Datasource\ConnectionManager;   
+    use Cake\Datasource\ConnectionManager;
     
     class DbController extends AppController
     {
-        public $interest,$row_amt,$col_amt,$pri_amt,$advance_amt,$other_amt,$tpa,$due_amt,$check;
+        public $interest,$row_amt,$col_amt,$pri_amt,$advance_amt,$other_amt,$tpa,$due_amount,$check,$due_date,$int,$amt;
         public function initialize(): void {
             parent::initialize();
             $this->connection = ConnectionManager::get('default');
@@ -30,7 +30,7 @@
             
             foreach($arrear as $key=>$data){
                 $this->pri_amt=$data->amount;
-                $due_date=$data->due_date;
+                $this->due_date=$data->due_date;
                 echo '<tr>';
                 echo '<td>'.date('Y/m/d',strtotime($data->due_date)).'</td>';
                 echo '<td>'.date('Y/m/d',strtotime($data->end_date)).'</td>';
@@ -40,7 +40,7 @@
                 $stmt->bindValue('crr',$crr);
                 $stmt->bindValue('ten',$ten_code);
                 $stmt->bindValue('div',$div_code);
-                $stmt->bindValue('due',$due_date);
+                $stmt->bindValue('due',$this->due_date);
                 $stmt->execute();
                 
                 $rows = $stmt->fetchAll('assoc');
@@ -50,16 +50,16 @@
                     foreach($rows as $row)
                     {
                         $this->pri_amt=($row['update_amount']*-1);
-                        $due_date=$row['due_date'];
+                        $this->due_date=$row['due_date'];
                     }
                 }
                 echo '<td>'.$this->pri_amt.'</td>';
                 
                 //getting Interest
-                $int= $this->connection
+                $this->int= $this->connection
                         ->newQuery()
-                        ->select("getinterest(".$this->pri_amt.",6,'".date('Y/m/d',strtotime($due_date))."') as int");
-                $data1=$int->execute()->fetchAll('assoc');
+                        ->select("getinterest(".$this->pri_amt.",6,'".date('Y/m/d',strtotime($this->due_date))."') as int");
+                $data1=$this->int->execute()->fetchAll('assoc');
                 
                 foreach($data1[0] as $key){
                     echo '<td>'.$key.'</td>';
@@ -105,7 +105,7 @@
             } else{
                 $this->other_amt=0;
             }
-            $this->due_amt= $this->request->getAttribute('total_due');            
+            $this->due_amount= $this->request->getQuery('total_due');
             $crr= $this->request->getQuery('crr');
             $div_code= $this->request->getQuery('division_code');
             $ten_code= $this->request->getQuery('tenure_code');
@@ -138,7 +138,7 @@
             foreach($arrear as $key=>$data)
             {
                 $this->pri_amt=$data->amount;
-                $due_date=$data->due_date;
+                $this->due_date=$data->due_date;
                 echo '<tr>';
                 echo '<td>'.date('Y/m/d',strtotime($data->due_date)).'</td>';
                 echo '<td>'.date('Y/m/d',strtotime($data->end_date)).'</td>';
@@ -148,9 +148,8 @@
                 $stmt->bindValue('crr',$crr);
                 $stmt->bindValue('ten',$ten_code);
                 $stmt->bindValue('div',$div_code);
-                $stmt->bindValue('due',$due_date);
+                $stmt->bindValue('due',$this->due_date);
                 $stmt->execute();
-                
                 $rows = $stmt->fetchAll('assoc');
                 $rowCount = $stmt->rowCount();
                 if($rowCount==1)
@@ -158,16 +157,16 @@
                     foreach($rows as $row)
                     {
                         $this->pri_amt=($row['update_amount']*-1);
-                        $due_date=$row['due_date'];
+                        $this->due_date=$row['due_date'];
                     }
                 }
                 echo '<td>'.$this->pri_amt.'</td>';
                 
                 //getting interest
-                $int= $this->connection
+                $this->int= $this->connection
                         ->newQuery()
-                        ->select("getinterest(".$this->pri_amt.",6,'".date('Y/m/d',strtotime($due_date))."') as int");
-                $data1=$int->execute()->fetchAll('assoc');
+                        ->select("getinterest(".$this->pri_amt.",6,'".date('Y/m/d',strtotime($this->due_date))."') as int");
+                $data1=$this->int->execute()->fetchAll('assoc');
                 
                 foreach($data1[0] as $key)
                 {
@@ -178,7 +177,7 @@
                     $this->due_amt=($this->interest+$this->pri_amt).'<br>';
 
                     //checking for each row to get cleared
-                    if(($this->tpa > $key) and ($this->tpa > $this->pri_amt) and ($this->tpa > round($this->due_amt,0)))
+                    if(($this->tpa > $key) and ($this->tpa > $this->pri_amt) and ($this->tpa >= round($this->due_amt,0)))
                     {
                         echo '<td>'. round($this->interest,0).'</td>';
                         $this->tpa-= round($this->interest,0);
@@ -201,17 +200,17 @@
                         if($this->tpa!=0){
                             //calculating Percentage
                             $percentage= $this->tpa/($this->pri_amt+$this->interest);
-                            $int= $this->interest*$percentage;
-                            $amt= $this->pri_amt*$percentage;
+                            $this->int= $this->interest*$percentage;
+                            $this->amt= $this->pri_amt*$percentage;
 
-                            echo '<td>'.round($this->interest,0).'</td>';
-                            $this->tpa-= round($this->interest);
-                            echo '<td>'.round($this->pri_amt,0).'</td>';
-                            $this->tpa-= round($this->pri_amt,0);
+                            echo '<td>'.round($this->int,0).'</td>';
+                            $this->tpa-= round($this->int);
+                            echo '<td>'.round($this->amt,0).'</td>';
+                            $this->tpa-= round($this->amt,0);
 
                             //Showing Remaining Balance
 
-                            echo '<td><b>'.'(I)'. round($this->interest-$int,0).'  (P)'. round($this->pri_amt-$amt).'</b></td>';
+                            echo '<td><b>'.'(I)'. round($this->interest-$this->int,0).'  (P)'. round($this->pri_amt-$this->amt).'</b></td>';
 
                             $this->tpa=0;
                         }
@@ -222,7 +221,7 @@
             echo '</table>';
                       
             //Showing Advances Message
-            if(($this->check+$this->advance_amt)>$this->due_amt)
+            if(($this->check+$this->advance_amt)>$this->due_amount)
             {
                 echo '<br>Dues Cleared and Advances : '.($this->tpa);
             }
@@ -252,18 +251,6 @@
             {
                 $this->RequestHandler->renderAs($this, 'json');
                 echo json_encode($details);
-            }
-        }
-        
-        public function insert()
-        {
-            $this->autoRender=false;
-            if(!empty($_SERVER['HTTP_CLIENT_IP'])){$ip = $_SERVER['HTTP_CLIENT_IP'];}
-            elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];}
-            else{$ip = $_SERVER['REMOTE_ADDR'];}
-            
-            if($this->request->is('post')){
-                
             }
         }
     }
